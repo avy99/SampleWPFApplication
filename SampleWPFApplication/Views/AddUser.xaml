@@ -1,0 +1,42 @@
+﻿<UserControl x:Class="SampleWPFApplication.Views.AddUser"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SampleWPFApplication.Views"
+             xmlns:models="clr-namespace:SampleWPFApplication.Models"
+             xmlns:vm="clr-namespace:SampleWPFApplication.ViewModels"
+             xmlns:cv="clr-namespace:SampleWPFApplication.Converters"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.DataContext>
+        <vm:StudentsViewModel/>
+    </UserControl.DataContext>
+    <UserControl.Resources>
+        <cv:MultipleParamterValueConverter x:Key="ParamConverter"/>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <Label Content="Student Email" Name="StudentEmail"/>
+        <TextBox Grid.Column="1" x:Name="studentEmail" Width="200"></TextBox>
+        <Label Grid.Row="1" Content="Student Name"/>
+        <TextBox Grid.Row="1" Grid.Column="1" x:Name="studentName" Width="200"></TextBox>
+        <Button Grid.Row="2" Content="Add" Command="{Binding AddCommand}">
+            <Button.CommandParameter>
+                <MultiBinding Converter="{StaticResource ParamConverter}">
+                    <Binding ElementName="studentEmail" Path="Text"/>
+                    <Binding ElementName="studentName" Path="Text"/>
+                </MultiBinding>
+            </Button.CommandParameter>
+            
+        </Button>
+    </Grid>
+</UserControl>
